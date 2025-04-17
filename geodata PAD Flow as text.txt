@@ -1,0 +1,34 @@
+**REGION PDF Extract
+Pdf.ExtractTextFromPDF.ExtractTextFromPage PDFFile: $'''C:\\Users\\hshre\\Downloads\\geodata.pdf''' PageNumber: 13 DetectLayout: True ExtractedText=> ExtractedPDFText
+Text.SplitText.Split Text: ExtractedPDFText StandardDelimiter: Text.StandardDelimiter.NewLine DelimiterTimes: 1 Result=> Rows
+@@copilotGeneratedAction: 'True'
+**ENDREGION
+**REGION Write to Excel
+@@copilotGeneratedAction: 'True'
+Excel.LaunchExcel.Launch LoadAddInsAndMacros: False Visible: True Instance=> ExcelInstance
+@@copilotGeneratedAction: 'True'
+SET RowIndex TO 1
+@@copilotGeneratedAction: 'True'
+LOOP FOREACH Row IN Rows
+    @@copilotGeneratedAction: 'True'
+Text.SplitText.SplitWithDelimiter Text: Row CustomDelimiter: $'''\\s+''' IsRegEx: True Result=> Columns
+    @@copilotGeneratedAction: 'True'
+SET ColumnIndex TO 1
+    @@copilotGeneratedAction: 'True'
+LOOP FOREACH Column IN Columns
+        @@copilotGeneratedAction: 'True'
+Excel.WriteToExcel.WriteCell Instance: ExcelInstance Row: RowIndex Column: ColumnIndex Value: Column
+        @@copilotGeneratedAction: 'True'
+SET ColumnIndex TO ColumnIndex + 1
+    @@copilotGeneratedAction: 'True'
+END
+    @@copilotGeneratedAction: 'True'
+SET RowIndex TO RowIndex + 1
+@@copilotGeneratedAction: 'True'
+END
+Excel.WriteToExcel.WriteCell Instance: ExcelInstance Value: $'''Hardik Shrestha - Swim Guide Data Assistant''' Column: 8 Row: 1
+@@copilotGeneratedAction: 'True'
+Excel.ResizeColumnsOrRows.AutofitAllColumns Instance: ExcelInstance
+Excel.SaveExcel.SaveAs Instance: ExcelInstance DocumentFormat: Excel.ExcelFormat.FromExtension DocumentPath: $'''C:\\Users\\hshre\\Downloads\\geodata.xlsx'''
+@@copilotGeneratedAction: 'True'
+**ENDREGION
